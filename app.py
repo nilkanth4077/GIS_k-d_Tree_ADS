@@ -145,6 +145,7 @@ if st.session_state.results:
         st.success(f"Total facilities found: {len(st.session_state.results)}")
 
         for r in st.session_state.results:
+            color = facility_colors.get(r[3], "gray")
             folium.CircleMarker(
                 [r[0], r[1]],
                 radius=6,
