@@ -49,9 +49,9 @@ df = pd.read_csv("ahmedabad_facilities.csv")
 # Sidebar Inputs
 st.sidebar.header("🔍 Search Panel")
 
-if st.sidebar.button("📍 Use My Current Location"):
-    get_current_location()
-    st.info("Location detected. Click Search to apply.")
+# if st.sidebar.button("📍 Use My Current Location"):
+#     get_current_location()
+#     st.info("Location detected. Click Search to apply.")
 
 lat = st.sidebar.number_input(
     "Enter Latitude",
