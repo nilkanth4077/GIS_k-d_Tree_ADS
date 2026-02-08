@@ -111,7 +111,17 @@ if st.sidebar.button("Search"):
 
 # ------------------ MAP SETUP ------------------
 m = folium.Map(location=[lat, lon], zoom_start=13)
-
+# Draw search radius circle for Range Search
+if st.session_state.search_type == "Range Search":
+    folium.Circle(
+        location=[lat, lon],
+        radius=radius * 111000,  # convert degrees to meters
+        color="red",
+        fill=True,
+        fill_opacity=0.1,
+        popup="Search Radius"
+    ).add_to(m)
+    
 facility_colors = {
     "Swimming_pools": "blue",
     "Municipal_gyms": "brown",
