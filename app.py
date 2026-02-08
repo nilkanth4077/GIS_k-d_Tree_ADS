@@ -163,7 +163,7 @@ if st.button("Build & Show KD-Tree"):
     tree_lines = kdtree_to_string(tree)
     tree_text = "\n".join(tree_lines)
 
-    st.subheader("KD-Tree Structure (Paper Style)")
+    st.subheader("KD-Tree Structure")
     st.code(tree_text, language="text")
 
 st.markdown("### 📊 Dataset Preview")
