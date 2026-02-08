@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
-from kd_tree import build_kdtree, nearest_neighbor, range_search
+from kd_tree import build_kdtree, nearest_neighbor, range_search, kdtree_to_string
 import streamlit.components.v1 as components
 
 if "lat" not in st.session_state:
@@ -43,10 +43,8 @@ st.set_page_config(page_title="GIS using k-D Tree", layout="wide")
 st.title("📍 Geographic Information System using k-D Tree")
 st.markdown("### Ahmedabad Municipal Corporation Spatial Dataset")
 
-# Load dataset
 df = pd.read_csv("ahmedabad_facilities.csv")
 
-# Sidebar Inputs
 st.sidebar.header("🔍 Search Panel")
 
 # if st.sidebar.button("📍 Use My Current Location"):
@@ -110,7 +108,6 @@ if st.sidebar.button("Search"):
         results = []
         range_search(tree, query, radius, results)
         st.session_state.results = results
-# --------------------------------------------------
 
 # ------------------ MAP SETUP ------------------
 m = folium.Map(location=[lat, lon], zoom_start=13)
@@ -127,7 +124,6 @@ folium.Marker(
     icon=folium.Icon(color="red")
 ).add_to(m)
 
-# ------------------ PLOT STORED RESULTS ------------------
 if st.session_state.results:
 
     if st.session_state.search_type == "Nearest Neighbor":
@@ -155,11 +151,20 @@ if st.session_state.results:
                 fill_color=color,
                 fill_opacity=0.8
             ).add_to(m)
-# --------------------------------------------------
 
 # Display Map
 st_folium(m, width=900)
 
-# Show Dataset
+if st.button("Build & Show KD-Tree"):
+    tree = build_kdtree(points)
+
+    st.success("KD-Tree built successfully!")
+
+    tree_lines = kdtree_to_string(tree)
+    tree_text = "\n".join(tree_lines)
+
+    st.subheader("KD-Tree Structure (Paper Style)")
+    st.code(tree_text, language="text")
+
 st.markdown("### 📊 Dataset Preview")
 st.dataframe(df.head(20))

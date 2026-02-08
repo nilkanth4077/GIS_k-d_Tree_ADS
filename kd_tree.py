@@ -64,3 +64,48 @@ def range_search(root, target, radius, results):
 
     if target[axis] + radius > root.point[axis]:
         range_search(root.right, target, radius, results)
+
+def print_kdtree(node, prefix="", is_left=True):
+    if node is None:
+        return
+
+    # Print right subtree first (goes on top)
+    if node.right:
+        new_prefix = prefix + ("│   " if is_left else "    ")
+        print_kdtree(node.right, new_prefix, False)
+
+    # Print current node
+    connector = "└── " if is_left else "├── "
+    lat, lon, name, category = node.point
+    print(prefix + connector + f"({lat:.4f}, {lon:.4f}) | {name} [{category}] | axis={node.axis}")
+
+    # Print left subtree
+    if node.left:
+        new_prefix = prefix + ("    " if is_left else "│   ")
+        print_kdtree(node.left, new_prefix, True)
+
+def kdtree_to_string(node, prefix="", is_left=True, lines=None):
+    if lines is None:
+        lines = []
+
+    if node is None:
+        return lines
+
+    # Right child first
+    if node.right:
+        new_prefix = prefix + ("│   " if is_left else "    ")
+        kdtree_to_string(node.right, new_prefix, False, lines)
+
+    connector = "└── " if is_left else "├── "
+    lat, lon, name, category = node.point
+    lines.append(
+        prefix + connector +
+        f"({lat:.4f}, {lon:.4f}) | {name} [{category}] | axis={node.axis}"
+    )
+
+    # Left child
+    if node.left:
+        new_prefix = prefix + ("    " if is_left else "│   ")
+        kdtree_to_string(node.left, new_prefix, True, lines)
+
+    return lines
