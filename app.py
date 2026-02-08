@@ -6,10 +6,10 @@ from kd_tree import build_kdtree, nearest_neighbor, range_search, kdtree_to_stri
 import streamlit.components.v1 as components
 
 if "lat" not in st.session_state:
-    st.session_state.lat = 23.0225
+    st.session_state.lat = 22.993098
 
 if "lon" not in st.session_state:
-    st.session_state.lon = 72.5714
+    st.session_state.lon = 72.489163
 
 # ------------------ SESSION STATE ------------------
 if "results" not in st.session_state:
